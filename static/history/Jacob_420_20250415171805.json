@@ -1,0 +1,18 @@
+{
+  "name": "Jacob 420",
+  "state": "CA",
+  "product_type": "Vape",
+  "thc": 38.0,
+  "thc_per_serving": 5.0,
+  "packaged_date": "2025-04-08",
+  "batch_id": "987654",
+  "cbd": 0.1,
+  "cbn": 0.1,
+  "weight_grams": 2.0,
+  "warning_label": false,
+  "results": [
+    "\u274c THC content exceeds 35% legal limit.",
+    "\u274c Product is missing a legal warning label."
+  ],
+  "date_created": "2025-04-15 17:18:05"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "WARNING BlueRazz",
+  "state": "LA",
+  "product_type": "Edible",
+  "thc": 36.0,
+  "thc_per_serving": 8.0,
+  "packaged_date": "2025-04-08",
+  "batch_id": "123456",
+  "cbd": 0.1,
+  "cbn": 0.0,
+  "weight_grams": 30.0,
+  "warning_label": true,
+  "results": [
+    "\u274c THC content exceeds 35% legal limit."
+  ],
+  "date_created": "2025-04-21 22:32:35"
+}

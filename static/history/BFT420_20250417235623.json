@@ -1,0 +1,18 @@
+{
+  "name": "BFT420",
+  "state": "MI",
+  "product_type": "Flower",
+  "thc": 38.0,
+  "thc_per_serving": 150.0,
+  "packaged_date": "2025-04-08",
+  "batch_id": "123456789",
+  "cbd": 0.1,
+  "cbn": 0.1,
+  "weight_grams": 3.0,
+  "warning_label": true,
+  "results": [
+    "\u274c THC content exceeds 35% legal limit.",
+    "\u274c THC per serving exceeds 100mg legal limit."
+  ],
+  "date_created": "2025-04-17 23:56:23"
+}

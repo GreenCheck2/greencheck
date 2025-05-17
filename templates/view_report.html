@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GreenCheck Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f2;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    img.logo {
+      width: 130px;
+      margin: 2rem auto 1rem;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    h1 {
+      color: #2e7d32;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .field-label {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .results-box {
+      background: #e8f5e9;
+      border-left: 5px solid #2e7d32;
+      padding: 1rem;
+      margin-top: 2rem;
+      border-radius: 8px;
+    }
+
+    .results-box ul {
+      padding-left: 1.2rem;
+    }
+
+    .button-row {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .button-row button,
+    .button-row a {
+      background-color: #2e7d32;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .button-row button:hover,
+    .button-row a:hover {
+      background-color: #27632a;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <img class="logo" src="/static/greencheck_logo.png" alt="GreenCheck Logo" />
+
+  <div class="container">
+    <h1>{{ report.name }}</h1>
+
+    <p><span class="field-label">State:</span> {{ report.state }}</p>
+    <p><span class="field-label">Product Type:</span> {{ report.product_type }}</p>
+    <p><span class="field-label">THC Percentage:</span> {{ report.thc }}</p>
+    <p><span class="field-label">THC per Serving (mg):</span> {{ report.thc_per_serving }}</p>
+    <p><span class="field-label">CBD Percentage:</span> {{ report.cbd }}</p>
+    <p><span class="field-label">CBN Percentage:</span> {{ report.cbn }}</p>
+    <p><span class="field-label">Weight (g):</span> {{ report.weight_grams }}</p>
+    <p><span class="field-label">Packaged Date:</span> {{ report.packaged_date }}</p>
+    <p><span class="field-label">Batch ID:</span> {{ report.batch_id }}</p>
+    <p><span class="field-label">Warning Label:</span> {{ "Yes" if report.warning_label else "No" }}</p>
+
+    <div class="results-box">
+      <strong>GreenCheck Results</strong>
+      <ul>
+        {% for line in report.results %}
+          <li>{{ line }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="button-row">
+      <a href="/history">← Back to Report History</a>
+      <a href="/download_report/{{ report.filename }}">⬇️ Download PDF</a>
+      <button onclick="window.print()">🖨️ Print</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 GreenCheck™ – Verified Cannabis Compliance
+  </footer>
+
+  <!-- ✅ Auto-print if ?print=1 is in the URL -->
+  <script>
+    window.onload = function () {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("print") === "1") {
+        window.print();
+      }
+    };
+  </script>
+</body>
+</html>

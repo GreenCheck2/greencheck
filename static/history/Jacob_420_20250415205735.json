@@ -1,0 +1,17 @@
+{
+  "name": "Jacob 420",
+  "state": "CA",
+  "product_type": "Flower",
+  "thc": 34.0,
+  "thc_per_serving": 5.0,
+  "packaged_date": "2025-02-28",
+  "batch_id": "987654",
+  "cbd": 0.1,
+  "cbn": 0.1,
+  "weight_grams": 2.0,
+  "warning_label": true,
+  "results": [
+    "\u2705 Product is compliant."
+  ],
+  "date_created": "2025-04-15 20:57:35"
+}

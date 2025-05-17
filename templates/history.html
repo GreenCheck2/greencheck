@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenCheck – Report History</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f2;
+      padding: 2rem;
+      margin: 0;
+    }
+
+  .flash-message {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-bottom: 2px solid #2e7d32;
+    border-top: 2px solid #2e7d32;
+    margin: 0;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+    body.dark-mode {
+      background-color: #1e1e1e;
+      color: #ddd;
+    }
+
+    body.dark-mode .report-list {
+      background-color: #2c2c2c;
+    }
+
+    body.dark-mode h1,
+    body.dark-mode h3,
+    body.dark-mode small {
+      color: #f0f0f0;
+    }
+
+    body.dark-mode .buttons a,
+    body.dark-mode .buttons button {
+      background-color: #388e3c;
+    }
+
+    body.dark-mode .buttons .delete-button {
+      background-color: #e53935;
+    }
+
+    body.dark-mode input,
+    body.dark-mode select {
+      background-color: #333;
+      color: #fff;
+      border-color: #666;
+    }
+
+    h1 {
+      color: #2c6e49;
+      text-align: center;
+    }
+
+    .controls {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .controls input,
+    .controls select {
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 180px;
+    }
+
+    .report-list {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .report {
+      border-bottom: 1px solid #ddd;
+      padding: 1rem 0;
+    }
+
+    .report:last-child {
+      border-bottom: none;
+    }
+
+    .report h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .report small {
+      color: #666;
+      display: block;
+      margin-top: 0.2rem;
+    }
+
+    .tag {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      display: inline-block;
+      font-size: 0.9rem;
+      color: #000;
+      background: none;
+      padding: 0;
+    }
+
+    .tag.issues {
+      color: #c62828;
+    }
+
+    .buttons {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .buttons a,
+    .buttons form {
+      display: inline-block;
+    }
+
+    .buttons button,
+    .buttons a {
+      background-color: #2e7d32;
+      color: white;
+      padding: 0.4rem 0.9rem;
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .buttons button:hover,
+    .buttons a:hover {
+      background-color: #27632a;
+    }
+
+    .buttons .delete-button {
+      background-color: #c62828;
+    }
+
+    .buttons .delete-button:hover {
+      background-color: #a91d1d;
+    }
+
+    .buttons input[type="email"] {
+      padding: 0.4rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .back-link a {
+      color: #2c6e49;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #darkModeToggle {
+      margin-left: 0.5rem;
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .buttons {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .buttons a,
+      .buttons button,
+      .buttons form {
+        width: 100%;
+      }
+
+      .controls {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .report-list {
+        padding: 1rem;
+      }
+
+      .buttons input[type="email"] {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div style="text-align: center;">
+    <img src="/static/greencheck_logo.png" alt="GreenCheck Logo" style="height: 150px; margin-bottom: -1rem;">
+    <h1>GreenCheck – Report History</h1>
+    <label style="font-size: 0.9rem;">
+      <input type="checkbox" id="darkModeToggle" /> Dark Mode
+    </label>
+  </div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div id="flash-message" class="flash-message">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search reports..." />
+    <select id="filterStatus">
+      <option value="all">All</option>
+      <option value="pass">Pass</option>
+      <option value="fail">Fail</option>
+    </select>
+    <select id="sortOrder">
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
+    </select>
+  </div>
+
+  <div class="report-list" id="reportList">
+    {% for report in reports %}
+      <div class="report" data-date="{{ report.date_created }}" data-status="{{ 'pass' if report.results and '✅' in report.results[0] else 'fail' }}">
+        <h3>{{ report.name }}</h3>
+        <small><strong>Date Created:</strong> {{ report.date_created }}</small>
+        <small><strong>Packaged Date:</strong> {{ report.packaged_date }} — {{ report.state }} / {{ report.type }}</small>
+
+        {% if report.results and "✅" in report.results[0] %}
+          <div class="tag">✔️ PASS</div>
+        {% else %}
+          <div class="tag issues">✖️ FAIL</div>
+        {% endif %}
+
+        <div class="buttons">
+          <a href="/view_report/{{ report.filename }}">👁️ View Report</a>
+          <a href="/view_report/{{ report.filename }}" onclick="window.open(this.href); return false;">🖨️ Print Report</a>
+          <a href="/download_report/{{ report.filename }}">💾 Download PDF</a>
+<a href="/preview_report/{{ report.filename }}" target="_blank">🔎 Preview PDF</a>
+
+          <form method="POST" action="/send_report/{{ report.filename }}" onsubmit="return validateEmail(this)">
+            <input type="email" name="email" placeholder="Email address" required />
+            <button type="submit">📧 Send Via Email</button>
+          </form>
+
+          <form method="POST" action="/delete/{{ report.filename }}" onsubmit="return confirmDelete(this)">
+            <input type="hidden" name="password">
+            <button type="submit" class="delete-button">🗑️ Delete</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <p>No reports saved yet.</p>
+    {% endfor %}
+  </div>
+
+  <div class="back-link">
+    <a href="/">← Back to GreenCheck</a>
+  </div>
+
+<script>
+  function validateEmail(form) {
+    const email = form.email.value;
+    if (!email || !email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+    return true;
+  }
+
+  function filterAndSortReports() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const status = document.getElementById('filterStatus').value;
+    const sort = document.getElementById('sortOrder').value;
+    const reports = Array.from(document.querySelectorAll('.report'));
+
+    let filtered = reports.filter(report => {
+      const text = report.innerText.toLowerCase();
+      const reportStatus = report.getAttribute('data-status');
+      return text.includes(search) && (status === 'all' || reportStatus === status);
+    });
+
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.getAttribute('data-date'));
+      const dateB = new Date(b.getAttribute('data-date'));
+      return sort === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+
+    const container = document.getElementById('reportList');
+    container.innerHTML = '';
+    filtered.forEach(report => container.appendChild(report));
+  }
+
+  document.getElementById('searchInput').addEventListener('input', filterAndSortReports);
+  document.getElementById('filterStatus').addEventListener('change', filterAndSortReports);
+  document.getElementById('sortOrder').addEventListener('change', filterAndSortReports);
+</script>
+
+<script>
+  function confirmDelete(form) {
+    const password = prompt("Enter password to delete this report:");
+    if (!password) return false;
+    form.password.value = password;
+    return true;
+  }
+</script>
+
+<script>
+  const toggle = document.getElementById('darkModeToggle');
+  const currentTheme = localStorage.getItem('theme');
+
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  }
+
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
+</script>
+
+<script>
+  setTimeout(() => {
+    const msg = document.getElementById('flash-message');
+    if (msg) {
+      msg.style.transition = 'opacity 0.5s ease';
+      msg.style.opacity = '0';
+      setTimeout(() => msg.remove(), 500);
+    }
+  }, 3500);
+</script>
+
+</body>
+</html>

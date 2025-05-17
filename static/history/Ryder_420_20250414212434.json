@@ -1,0 +1,19 @@
+{
+  "name": "Ryder 420",
+  "state": "OK",
+  "product_type": "Concentrate",
+  "thc": 125.0,
+  "thc_per_serving": 200.0,
+  "packaged_date": "2025-04-10",
+  "batch_id": "123456789",
+  "cbd": 0.1,
+  "cbn": 0.01,
+  "weight_grams": 4.5,
+  "warning_label": false,
+  "results": [
+    "\u274c THC content exceeds 35% legal limit.",
+    "\u274c THC per serving exceeds 100mg legal limit.",
+    "\u274c Product is missing a legal warning label."
+  ],
+  "date_created": "2025-04-14 21:24:34"
+}
