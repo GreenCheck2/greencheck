@@ -27,8 +27,9 @@ def login_required(f):
     return decorated_function
 
 # ✅ EMAIL CONFIG
-EMAIL_ADDRESS = "greencheckreports@gmail.com"
-EMAIL_PASSWORD = "hdgd xpgs seyk konx"
+EMAIL_ADDRESS = os.environ.get("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+
 
 from compliance_rules import check_compliance
 
